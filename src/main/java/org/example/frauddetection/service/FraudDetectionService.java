@@ -48,11 +48,11 @@ public class FraudDetectionService {
             return new FraudDetectionResponse(false, null, 0);
         }
 
-        // Calculate total weight of all results to balance for skipped checks
-        double totalWeightMissing = 1.0-fraudRuleResults.stream().mapToDouble(FraudRuleResultWithWeight::weight).sum();
+        // Calculate weight multiplier to balance for skipped checks
+        double weightMultiplier = 1.0/fraudRuleResults.stream().mapToDouble(FraudRuleResultWithWeight::weight).sum();
 
         // Calculate fraud score as a weighted result of all risks
-        int fraudScore = fraudRuleResults.stream().mapToInt(ruleWithWeight -> (int) (ruleWithWeight.ruleResult().riskScore()*ruleWithWeight.weight()*(1.0+totalWeightMissing))).sum();
+        int fraudScore = (int) fraudRuleResults.stream().mapToDouble(ruleWithWeight -> (ruleWithWeight.ruleResult().riskScore()*ruleWithWeight.weight()*weightMultiplier)).sum();
 
         // If any of the fraud rules returns a direct rejection we reject the request
         List<FraudRuleResultWithWeight> rejectedFraudRules = fraudRuleResults.stream().filter(result -> result.ruleResult().rejected()).toList();
