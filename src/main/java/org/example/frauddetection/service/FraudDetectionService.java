@@ -3,6 +3,7 @@ package org.example.frauddetection.service;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.frauddetection.config.FraudDetectionConstants;
 import org.example.frauddetection.domain.fraud.rules.AmountThresholdRule;
 import org.example.frauddetection.domain.fraud.rules.CardUsageFrequencyRule;
 import org.example.frauddetection.domain.fraud.rules.UnknownTerminalRule;
@@ -10,7 +11,6 @@ import org.example.frauddetection.domain.model.FraudRuleResultWithWeight;
 import org.example.frauddetection.domain.model.FraudRuleWithWeight;
 import org.example.frauddetection.dtos.FraudDetectionResponse;
 import org.example.frauddetection.dtos.TransactionRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +26,9 @@ public class FraudDetectionService {
     private final UnknownTerminalRule unknownTerminalRule;
 
     private List<FraudRuleWithWeight> fraudRulesWithWeight;
-    private final static int fraudScoreThreshold = 40;
 
     @PostConstruct
-    private void postConstruct() {
+    void postConstruct() {
         this.fraudRulesWithWeight = List.of(
                 new FraudRuleWithWeight(amountThresholdRule, 0.2),
                 new FraudRuleWithWeight(cardUsageFrequencyRule, 0.3),
@@ -63,9 +62,9 @@ public class FraudDetectionService {
         }
 
         // Otherwise we determine if fraud score exceeds our threshold value
-        if(fraudScore >= fraudScoreThreshold) {
+        if(fraudScore >= FraudDetectionConstants.FRAUD_SCORE_REJECT_THRESHOLD) {
             log.info("Rejected transaction {}. fraud score was: {}", request.toString(), fraudScore);
-            return new FraudDetectionResponse(true, "Fraud score too high", fraudScore);
+            return new FraudDetectionResponse(true, FraudDetectionConstants.FRAUD_SCORE_TOO_HIGH_REJECTION_MESSAGE, fraudScore);
         }
 
         // If all checks passes we allow request

@@ -28,7 +28,7 @@ public class TransactionRequest {
 
     @Override
     public String toString() {
-        return "TransactionRequest [amount=" + amount + ", currency=" + currency + ", terminalId= " + terminalId + ", terminalThreatScore=" + terminalThreatScore + ", cardNumber=************" + cardNumber.substring(12, 16) + "]";
+        return "TransactionRequest [amount=" + amount + ", currency=" + currency + ", terminalId= " + terminalId + ", terminalThreatScore=" + terminalThreatScore + ", cardNumber=************" + (cardNumber != null && cardNumber.length() == 16 ? cardNumber.substring(12, 16) : "Unprocessable") + "]";
     }
 }
 
