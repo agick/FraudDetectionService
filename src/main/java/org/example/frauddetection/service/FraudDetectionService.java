@@ -57,7 +57,7 @@ public class FraudDetectionService {
         // If any of the fraud rules returns a direct rejection we reject the request
         List<FraudRuleResultWithWeight> rejectedFraudRules = fraudRuleResults.stream().filter(result -> result.ruleResult().rejected()).toList();
         if(!rejectedFraudRules.isEmpty()) {
-            log.info("Detected fraud for transaction {}. Fraud rules resulting in rejecting are: {}", request.toString(), rejectedFraudRules);
+            log.warn("Detected fraud for transaction {}. Fraud rules resulting in rejecting are: {}", request.toString(), rejectedFraudRules);
             FraudRuleResultWithWeight firstRejectedRule = rejectedFraudRules.get(0);
             return new FraudDetectionResponse(true, firstRejectedRule.ruleResult().rejectionMessage(), fraudScore);
         }
