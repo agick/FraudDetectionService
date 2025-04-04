@@ -88,4 +88,5 @@ public class FraudDetectionServiceTest {
         assertTrue(response.rejected());
         assertEquals("Direct rejection", response.rejectionMessage());
     }
+
 }

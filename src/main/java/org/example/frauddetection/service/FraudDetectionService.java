@@ -29,6 +29,7 @@ public class FraudDetectionService {
 
     @PostConstruct
     void postConstruct() {
+        // Ensure that all weights sum to 1.0
         this.fraudRulesWithWeight = List.of(
                 new FraudRuleWithWeight(amountThresholdRule, 0.2),
                 new FraudRuleWithWeight(cardUsageFrequencyRule, 0.3),
@@ -37,6 +38,7 @@ public class FraudDetectionService {
     }
 
     public FraudDetectionResponse detectFraud(TransactionRequest request) {
+        // Evaluate all rules for transaction
         List<FraudRuleResultWithWeight> fraudRuleResults =
                 fraudRulesWithWeight.stream().map(ruleWithWeight ->
                         new FraudRuleResultWithWeight(ruleWithWeight.fraudRule().evaluate(request), ruleWithWeight.weight()))
