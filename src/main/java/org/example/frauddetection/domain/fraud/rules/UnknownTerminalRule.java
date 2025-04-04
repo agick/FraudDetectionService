@@ -13,7 +13,7 @@ public class UnknownTerminalRule implements FraudRule {
                 false,
                 false,
                 null,
-                0
+                30
         );
     }
 }

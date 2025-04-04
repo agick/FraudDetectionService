@@ -36,7 +36,7 @@ public class AmountThresholdRule implements FraudRule {
                 false,
                 exceedsValidAmount,
                 exceedsValidAmount ? "Amount too high" : null,
-                exceedsValidAmount ? 100 : (int) (request.getAmount() / highestValidAmountForTransaction) * 100
+                exceedsValidAmount ? 100 : (int) ((request.getAmount() / highestValidAmountForTransaction) * 100)
         );
     }
 }

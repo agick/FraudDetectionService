@@ -13,7 +13,7 @@ public class CardUsageFrequencyRule implements FraudRule {
                 false,
                 false,
                null,
-                80
+                30
         );
     }
 }

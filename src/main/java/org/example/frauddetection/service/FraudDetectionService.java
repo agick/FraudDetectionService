@@ -31,9 +31,9 @@ public class FraudDetectionService {
     void postConstruct() {
         // Ensure that all weights sum to 1.0
         this.fraudRulesWithWeight = List.of(
-                new FraudRuleWithWeight(amountThresholdRule, 0.2),
-                new FraudRuleWithWeight(cardUsageFrequencyRule, 0.3),
-                new FraudRuleWithWeight(unknownTerminalRule, 0.5)
+                new FraudRuleWithWeight(amountThresholdRule, 0.4),
+                new FraudRuleWithWeight(cardUsageFrequencyRule, 0.25),
+                new FraudRuleWithWeight(unknownTerminalRule, 0.35)
         );
     }
 
